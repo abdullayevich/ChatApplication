@@ -42,6 +42,6 @@ public class GroupChatService : IGroupChatService
     {
         var result = await _dbContext.GroupChats.Include(gm => gm.GroupMembers)
             .FirstOrDefaultAsync(gm => gm.Id == id);
-        throw new NotImplementedException();
+        return result;
     }
 }
