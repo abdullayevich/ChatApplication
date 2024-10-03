@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ChatApplication.Server.Migrations
+namespace ChatApplication.Service.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class InitialComment : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,11 +86,10 @@ namespace ChatApplication.Server.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SenderId = table.Column<int>(type: "integer", nullable: false),
                     ReceiverId = table.Column<int>(type: "integer", nullable: true),
-                    GroupId = table.Column<int>(type: "integer", nullable: true),
+                    GroupChatId = table.Column<int>(type: "integer", nullable: true),
                     MessageContent = table.Column<string>(type: "text", nullable: false),
                     SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsRead = table.Column<bool>(type: "boolean", nullable: false),
-                    GroupChatId = table.Column<int>(type: "integer", nullable: false)
+                    IsRead = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,8 +98,7 @@ namespace ChatApplication.Server.Migrations
                         name: "FK_Messages_GroupChats_GroupChatId",
                         column: x => x.GroupChatId,
                         principalTable: "GroupChats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Messages_Users_ReceiverId",
                         column: x => x.ReceiverId,
@@ -119,6 +117,12 @@ namespace ChatApplication.Server.Migrations
                 name: "IX_GroupChats_CreatedById",
                 table: "GroupChats",
                 column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupChats_GroupName",
+                table: "GroupChats",
+                column: "GroupName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupMembers_GroupChatId",

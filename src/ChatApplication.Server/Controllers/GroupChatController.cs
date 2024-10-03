@@ -24,7 +24,8 @@ public class GroupChatController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
+    // Bitta guruh va uning barcha messagelari
+    [HttpGet("{groupId}")]
     public async Task<IActionResult> GetGroupChatByIdAsync(int groupId)
     {
         var result = await _chatService.GetGroupChatByIdAsync(groupId);
@@ -32,6 +33,7 @@ public class GroupChatController : ControllerBase
     }
 
     [HttpGet]
+    [Route("get-all-groupChat")]
     public async Task<IActionResult> GetAllGroupChatsAsync()
     {
         var result = await _chatService.GetAllGroupChatsAsync();

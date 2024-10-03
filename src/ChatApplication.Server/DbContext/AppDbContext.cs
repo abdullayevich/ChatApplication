@@ -29,13 +29,19 @@ public class AppDbContext : DbContext
             .HasForeignKey(m => m.ReceiverId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        //modelBuilder.Entity<Message>()
+        //    .HasOne(m => m.GroupChat)
+        //    .WithMany(u => u.Messages)
+        //    .HasForeignKey(m => m.GroupChatId)
+        //    .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Username)
             .IsUnique();
 
-        //modelBuilder.Entity<GroupChat>()
-        //    .HasIndex(u => u.GroupName)
-        //    .IsUnique();
+        modelBuilder.Entity<GroupChat>()
+            .HasIndex(u => u.GroupName)
+            .IsUnique();
 
 
     }

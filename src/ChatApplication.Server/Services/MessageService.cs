@@ -14,26 +14,36 @@ public class MessageService : IMessageService
     }
     public async Task<IEnumerable<Message>> GetGroupMessagesAsync(int groupId)
     {
-        var result = await _dbContext.Messages.Where(x => x.GroupId == groupId).Include(x => x.GroupChat).ToListAsync();
+        var result = await _dbContext.Messages.Where(x => x.GroupChatId == groupId).ToListAsync();
         return result;
     }
     // ikkita tomon id si kiritilishi mumkin methodga
     public async Task<IEnumerable<Message>> GetMessagesByUserIdAsync(int userId)
     {
         var result = await _dbContext.Messages.Where(m => m.SenderId == userId || m.ReceiverId == userId).ToListAsync();
-        throw new NotImplementedException();
+        return result;
     }
 
     public async Task<Message> SendMessageAsync(CreateMessageDto messageDto)
     {
-        Message message = new Message()
+        Message message = new Message();
+        if (messageDto.GroupId == 0)
         {
-            SenderId = messageDto.SenderId,
-            ReceiverId = messageDto.ReceiverId,
-            GroupId = messageDto.GroupId,
-            MessageContent = messageDto.MessageContent,
-            SentAt = DateTime.UtcNow.AddHours(5),
-        };
+            message.SenderId = messageDto.SenderId;
+            message.ReceiverId = messageDto.ReceiverId;
+            message.MessageContent = messageDto.MessageContent;
+            message.SentAt = DateTime.UtcNow.AddHours(5);
+            message.IsRead = true;
+        }
+        else if(messageDto.ReceiverId == 0) 
+        {
+            message.SenderId = messageDto.SenderId;
+            message.GroupChatId = messageDto.GroupId;
+            message.MessageContent = messageDto.MessageContent;
+            message.SentAt = DateTime.UtcNow.AddHours(5);
+            message.IsRead = true;
+        }
+        
         _dbContext.Messages.Add(message);
         await _dbContext.SaveChangesAsync();
         return message;

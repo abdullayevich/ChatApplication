@@ -8,11 +8,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ChatApplication.Server.Migrations
+namespace ChatApplication.Service.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241003103246_CreateDatabase2")]
-    partial class CreateDatabase2
+    [Migration("20241003161707_InitialComment")]
+    partial class InitialComment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace ChatApplication.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("GroupName")
+                        .IsUnique();
 
                     b.ToTable("GroupChats");
                 });
@@ -86,10 +89,7 @@ namespace ChatApplication.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GroupChatId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("GroupId")
+                    b.Property<int?>("GroupChatId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsRead")
@@ -187,9 +187,7 @@ namespace ChatApplication.Server.Migrations
                 {
                     b.HasOne("ChatApplication.Domain.Entities.GroupChat", "GroupChat")
                         .WithMany("Messages")
-                        .HasForeignKey("GroupChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupChatId");
 
                     b.HasOne("ChatApplication.Domain.Entities.User", "Receiver")
                         .WithMany("ReceivedMessages")

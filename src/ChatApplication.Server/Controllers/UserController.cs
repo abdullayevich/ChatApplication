@@ -20,6 +20,7 @@ namespace ChatApplication.Service.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
         public async Task<IActionResult> CreateUser(AccountRegisterDto registerDto)
         {
             var result = await _accountService.RegisterAsync(registerDto);
@@ -33,7 +34,7 @@ namespace ChatApplication.Service.Controllers
             var result = await _userService.GetAllUsersAsync();
             return Ok(result);
         }
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
             var result = await _userService.GetUserByIdAsync(id);
