@@ -2741,9 +2741,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Application\\ChatApplication\\src\\ChatApplication.Server\\ChatApplication.Server.csproj",
-      "projectName": "ChatApplication.Server",
-      "projectPath": "D:\\Application\\ChatApplication\\src\\ChatApplication.Server\\ChatApplication.Server.csproj",
+      "projectUniqueName": "D:\\Application\\ChatApplication\\src\\ChatApplication.Server\\ChatApplication.Service.csproj",
+      "projectName": "ChatApplication.Service",
+      "projectPath": "D:\\Application\\ChatApplication\\src\\ChatApplication.Server\\ChatApplication.Service.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
       "outputPath": "D:\\Application\\ChatApplication\\src\\ChatApplication.Server\\obj\\",
       "projectStyle": "PackageReference",

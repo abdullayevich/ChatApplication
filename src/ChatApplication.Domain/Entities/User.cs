@@ -16,7 +16,7 @@ public class User
     [Required]
     public string Email { get; set; }
     public string Password { get; set; }
-    public bool Status { get; set; } // online = 1, offline = 0, etc.
+    public bool Status { get; set; } // online = 1, offline = 0
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public ICollection<Message> SentMessages { get; set; }
