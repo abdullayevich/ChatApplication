@@ -16,8 +16,7 @@ public class Message
     public DateTime SentAt { get; set; } = DateTime.Now;
     public bool IsRead { get; set; } = false;
 
-    // Relationships
     public User Sender { get; set; }
-    public User Receiver { get; set; }    // Nullable, for direct messages
-    public GroupChat GroupChat { get; set; } // Nullable, for group messages
+    public User Receiver { get; set; }
+    public GroupChat GroupChat { get; set; }
 }

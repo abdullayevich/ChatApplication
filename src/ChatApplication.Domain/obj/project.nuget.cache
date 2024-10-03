@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "gz//kexsqEI=",
+  "dgSpecHash": "iNdsDxeJwXQ=",
   "success": true,
   "projectFilePath": "D:\\Application\\ChatApplication\\src\\ChatApplication.Domain\\ChatApplication.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.8\\microsoft.entityframeworkcore.abstractions.8.0.8.nupkg.sha512"
+  ],
   "logs": []
 }

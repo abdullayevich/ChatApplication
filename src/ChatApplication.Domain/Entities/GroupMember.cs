@@ -13,7 +13,6 @@ namespace ChatApplication.Domain.Entities
         public int UserId { get; set; }
         public DateTime JoinedAt { get; set; } = DateTime.Now;
 
-        // Relationships
         public GroupChat GroupChat { get; set; }
         public User User { get; set; }
     }
