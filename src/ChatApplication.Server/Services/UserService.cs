@@ -6,7 +6,7 @@ namespace ChatApplication.Service.Services
 {
     public class UserService : IUserService
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public UserService(AppDbContext dbContext)
         {

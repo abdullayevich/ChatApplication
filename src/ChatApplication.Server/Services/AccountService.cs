@@ -7,16 +7,22 @@ namespace ChatApplication.Service.Services
 {
     public class AccountService : IAccountService
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public AccountService(AppDbContext dbContext)
         {
             this._dbContext = dbContext;
             
         }
-        public Task<User> LoginAsync(AccountLoginDto loginDto)
+        // To'ldirilishi kerak !!!
+        public async Task<User> LoginAsync(AccountLoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            if (user == null)
+            {
+                throw new NotImplementedException();
+            }
+            return user;
         }
 
         public async Task<User> RegisterAsync(AccountRegisterDto registerDto)

@@ -33,7 +33,7 @@ namespace ChatApplication.Service.Controllers
             var result = await _userService.GetAllUsersAsync();
             return Ok(result);
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
             var result = await _userService.GetUserByIdAsync(id);

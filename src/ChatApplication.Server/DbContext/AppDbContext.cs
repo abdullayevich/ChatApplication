@@ -33,6 +33,10 @@ public class AppDbContext : DbContext
             .HasIndex(u => u.Username)
             .IsUnique();
 
+        //modelBuilder.Entity<GroupChat>()
+        //    .HasIndex(u => u.GroupName)
+        //    .IsUnique();
+
 
     }
 
