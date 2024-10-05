@@ -40,5 +40,12 @@ namespace ChatApplication.Service.Controllers
             var result = await _userService.GetUserByIdAsync(id);
             return Ok(result);
         }
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync(AccountLoginDto loginDto)
+        {
+            var result = await _accountService.LoginAsync(loginDto);
+            return Ok(result);
+        }
     }
 }

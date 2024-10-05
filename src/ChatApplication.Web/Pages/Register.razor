@@ -1,0 +1,70 @@
+﻿@page "/register"
+@inject NavigationManager Navigation
+@inject HttpClient HttpClient
+@inject IJSRuntime JsRuntime
+@inject HttpClient Http
+<PageTitle>Register - Blazing Chat</PageTitle>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+                <EditForm Model="InputModel" OnSubmit="RegisterAsync">
+                <div class="card  br-0 mt-5">
+                    <div class="card-header bg-main br-0">
+                        <h2 class="text-white mb-0">Blazing Chat - Register</h2>
+                    </div>
+                    <div class="card-body">
+                <DataAnnotationsValidator />
+                
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <InputText @bind-Value="InputModel.UserName" DisplayName="Username" class="form-control" placeholder="Enter username" />
+                    <ValidationMessage For="() => InputModel.UserName" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <InputText @bind-Value="InputModel.Email" DisplayName="Email" class="form-control" placeholder="Enter email" />
+                    <ValidationMessage For="() => InputModel.Email" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <InputText type="password" @bind-Value="InputModel.Password" DisplayName="Password" class="form-control" placeholder="Enter password" />
+                    <ValidationMessage For="() => InputModel.Password" />
+                </div>
+                    </div>
+                    <div class="card-footer">
+                        <NavLink href="/" Match="NavLinkMatch.All" class="btn btn-outline-primary float-start">Login</NavLink>
+                                    <button @onclick="RegisterAsync" type="submit" class="btn btn-success float-end">Register</button>
+                            <div class="clearfix"></div>
+                        </div>
+                </div>
+            </EditForm>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+    </div>
+</div>
+
+@code {
+    private AccountRegisterDto InputModel { get; set; } = new ();
+
+    private async Task RegisterAsync()
+    {
+        try
+        {
+            var response = await HttpClient.PostAsJsonAsync<AccountRegisterDto>("api/account/register", InputModel);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                Console.WriteLine("Registration failed: " + response.ReasonPhrase);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Registration failed: " + ex.Message);
+        }
+    }
+}

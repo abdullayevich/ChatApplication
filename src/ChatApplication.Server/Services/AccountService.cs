@@ -17,11 +17,12 @@ namespace ChatApplication.Service.Services
         // To'ldirilishi kerak !!!
         public async Task<User> LoginAsync(AccountLoginDto loginDto)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
             if (user == null)
             {
                 throw new NotImplementedException();
             }
+
             return user;
         }
 

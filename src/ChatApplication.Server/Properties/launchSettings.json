@@ -37,5 +37,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "AllowedHosts": "*",
+  "DataverseConfig": {
+    "BaseUri": "https://localhost:7096/"
   }
 }

@@ -4,11 +4,14 @@ namespace ChatApplication.Service.Dtos.Users
 {
     public class AccountRegisterDto
     {
-        [Required]
+        [Required(ErrorMessage = "Username is required")]
         public string UserName { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
     }
 }
