@@ -1,0 +1,30 @@
+﻿@using ChatApplication.Service.ViewModels.UserViewModels
+@model IEnumerable<AllUserViewModel>
+
+@{
+    ViewData["Title"] = "My Contacts";
+}
+
+<h2>My Contacts</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@(user.Status ? "Active" : "Inactive")</td>
+                </tr>
+        }
+    </tbody>
+</table>

@@ -8,22 +8,25 @@ namespace ChatApplication.Service.Services
     public class AccountService : IAccountService
     {
         private readonly AppDbContext _dbContext;
+        private readonly IAuthService _authService;
 
-        public AccountService(AppDbContext dbContext)
+        public AccountService(AppDbContext dbContext, IAuthService authService)
         {
             this._dbContext = dbContext;
+            this._authService = authService;
             
         }
         // To'ldirilishi kerak !!!
-        public async Task<User> LoginAsync(AccountLoginDto loginDto)
+        public async Task<string> LoginAsync(AccountLoginDto loginDto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
             if (user == null)
             {
                 throw new NotImplementedException();
             }
+            string token = _authService.GenerateToken(user);
 
-            return user;
+            return token;
         }
 
         public async Task<User> RegisterAsync(AccountRegisterDto registerDto)

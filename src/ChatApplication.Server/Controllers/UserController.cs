@@ -1,8 +1,10 @@
 ﻿using ChatApplication.Domain.Entities;
 using ChatApplication.Service.Dtos.Users;
 using ChatApplication.Service.Interfaces;
+using ChatApplication.Service.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace ChatApplication.Service.Controllers
 {
@@ -32,7 +34,14 @@ namespace ChatApplication.Service.Controllers
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var result = await _userService.GetAllUsersAsync();
-            return Ok(result);
+            var res = result.ToList().Select(u => new AllUserViewModel
+            {
+                Id = u.Id,
+                Email = u.Email,
+                Username = u.Username,
+                Status = u.Status,
+            });
+            return Ok(res);
         }
         [HttpGet("get/{id}")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
@@ -44,8 +53,8 @@ namespace ChatApplication.Service.Controllers
         [Route("login")]
         public async Task<IActionResult> LoginAsync(AccountLoginDto loginDto)
         {
-            var result = await _accountService.LoginAsync(loginDto);
-            return Ok(result);
+            var token = await _accountService.LoginAsync(loginDto);
+            return Ok(token);
         }
     }
 }

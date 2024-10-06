@@ -7,7 +7,7 @@ namespace ChatApplication.Service.Interfaces
     {
         public Task<User> RegisterAsync(AccountRegisterDto registerDto);
 
-        public Task<User> LoginAsync(AccountLoginDto loginDto);
+        public Task<string> LoginAsync(AccountLoginDto loginDto);
 
     }
 }

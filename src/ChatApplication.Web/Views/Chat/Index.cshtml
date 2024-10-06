@@ -1,0 +1,30 @@
+﻿@using ChatApplication.Domain.Entities
+@model IList<GroupChat>
+
+@{
+    ViewData["Title"] = "All Chats";
+}
+
+<h2>All Chats</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Group Name</th>
+            <th>Created By ID</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var chat in Model)
+        {
+                <tr>
+                    <td>@chat.Id</td>
+                    <td>@chat.GroupName</td>
+                    <td>@chat.CreatedById</td>
+                    <td>@chat.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                </tr>
+        }
+    </tbody>
+</table>
