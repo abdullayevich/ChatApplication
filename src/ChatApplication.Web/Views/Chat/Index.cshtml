@@ -21,10 +21,85 @@
         {
                 <tr>
                     <td>@chat.Id</td>
-                    <td>@chat.GroupName</td>
+                    <td>
+                        <button class="btn btn-primary open-chat" data-group-id="@chat.Id" data-toggle="modal" data-target="#chatModal">@chat.GroupName</button>
+                    </td>
                     <td>@chat.CreatedById</td>
                     <td>@chat.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
                 </tr>
         }
     </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatModalLabel">Chat Window</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="chatMessages" style="max-height: 300px; overflow-y: auto;">Loading chat...</div>
+
+                <hr />
+
+                <form id="chatForm">
+                    <input type="hidden" id="groupId" />
+                    <div class="form-group">
+                        <textarea id="message" class="form-control" placeholder="Enter your message..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.open-chat').click(function() {
+                        var groupId = $(this).data('group-id');
+                        $('#groupId').val(groupId);
+
+                            $.get('/Chat/' + groupId, function(data) {
+                            console.log(data);
+                            var chatMessages = $('#chatMessages');
+                            chatMessages.html(''); // Oldingi xabarlarni tozalash
+
+
+                                data.forEach(function(message) {
+                                    var messageHtml = `
+                                    <div class="message">
+                                        <div>User ID: <strong>${message.id}</strong></div>
+                                            <div>User Name: <strong>${message.fromUserName}</strong></div>
+                                        <div>Message: ${message.messageContent}</div>
+                                        <hr />
+                                        </div>`;
+                                chatMessages.append(messageHtml);
+                            });
+                        });
+                    });
+
+                    $('#chatForm').submit(function(e) {
+                        e.preventDefault();
+                        var groupId = $('#groupId').val();
+                        var message = $('#message').val();
+
+                        // Send the message via AJAX
+                        $.post('/Group/SendMessage', { groupId: groupId, message: message }, function() {
+                            // Add the message to the chat window
+                            $('#chatMessages').append('<div>' + message + '</div>');
+                            $('#message').val(''); // Clear the textarea
+                        });
+                    });
+                });
+            </script>
+}

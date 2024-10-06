@@ -7,14 +7,24 @@ namespace ChatApplication.Service.Services;
 public class MessageService : IMessageService
 {
     private readonly AppDbContext _dbContext;
-
     public MessageService(AppDbContext dbContext)
     {
         this._dbContext = dbContext;
     }
     public async Task<IEnumerable<Message>> GetGroupMessagesAsync(int groupId)
     {
-        var result = await _dbContext.Messages.Where(x => x.GroupChatId == groupId).ToListAsync();
+        var result = await (from mess in _dbContext.Messages.Where(x => x.GroupChatId == groupId)
+                      join user in _dbContext.Users.Where(x => x.Id > 0)
+                      on mess.SenderId equals user.Id
+                      select new Message()
+                      {
+                          Id = mess.Id,
+                          SenderId = mess.SenderId,
+                          Sender = user,
+                          GroupChatId = mess.GroupChatId,
+                          MessageContent = mess.MessageContent,
+                          SentAt = mess.SentAt,
+                      }).ToListAsync();
         return result;
     }
     // ikkita tomon id si kiritilishi mumkin methodga
@@ -35,7 +45,7 @@ public class MessageService : IMessageService
             message.SentAt = DateTime.UtcNow.AddHours(5);
             message.IsRead = true;
         }
-        else if(messageDto.ReceiverId == 0) 
+        else if (messageDto.ReceiverId == 0)
         {
             message.SenderId = messageDto.SenderId;
             message.GroupChatId = messageDto.GroupId;
@@ -43,7 +53,7 @@ public class MessageService : IMessageService
             message.SentAt = DateTime.UtcNow.AddHours(5);
             message.IsRead = true;
         }
-        
+
         _dbContext.Messages.Add(message);
         await _dbContext.SaveChangesAsync();
         return message;

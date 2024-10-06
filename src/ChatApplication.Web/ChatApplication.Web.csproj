@@ -17,4 +17,8 @@
     <ProjectReference Include="..\ChatApplication.Server\ChatApplication.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\signalr\" />
+  </ItemGroup>
+
 </Project>

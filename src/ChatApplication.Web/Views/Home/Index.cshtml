@@ -5,29 +5,3 @@
     <button id="sendMessageButton">Send</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
-<script>
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/chatHub") // Web API'da xaritalangan SignalR Hub
-        .build();
-
-    connection.on("ReceiveMessage", function (user, message) {
-        const encodedMsg = user + ": " + message;
-        const li = document.createElement("li");
-        li.textContent = encodedMsg;
-        document.getElementById("messagesList").appendChild(li);
-    });
-
-    connection.start().catch(function (err) {
-        return console.error(err.toString());
-    });
-
-    document.getElementById("sendMessageButton").addEventListener("click", function (event) {
-        const user = document.getElementById("userInput").value;
-        const message = document.getElementById("messageInput").value;
-        connection.invoke("SendMessage", user, message).catch(function (err) {
-            return console.error(err.toString());
-        });
-        event.preventDefault();
-    });
-</script>

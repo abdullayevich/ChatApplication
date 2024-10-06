@@ -1,5 +1,6 @@
 ﻿using ChatApplication.Service.Dtos.Messages;
 using ChatApplication.Service.Interfaces;
+using ChatApplication.Service.ViewModels.MessageViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,14 @@ public class MessageController : ControllerBase
     [HttpGet("get-all/{groupId}")]
     public async Task<IActionResult> GetGroupMessagesAsync(int groupId)
     {
-        var result = await _messageService.GetGroupMessagesAsync(groupId);
+        var groupMessages = await _messageService.GetGroupMessagesAsync(groupId);
+        var result = groupMessages.Select(x => new MessageViewModel
+        {
+            Id = x.Id,
+            FromUserName = x.Sender.Username,
+            MessageContent = x.MessageContent,
+            Timestamp = x.SentAt
+        });
         return Ok(result);
     }
 
