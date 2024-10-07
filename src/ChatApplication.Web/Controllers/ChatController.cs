@@ -19,16 +19,11 @@ namespace ChatApplication.Web.Controllers
             return View("Index", groupChats);
         }
         
-        [HttpGet("Chat/{groupId}")]
-        public async Task<IActionResult> GetMessages(int groupId)
+        [HttpGet]
+        [Route("ChatRoom")]
+        public async Task<IActionResult> ChatRoom()
         {
-            var groupMessages = await _httpClient.GetFromJsonAsync<IList<MessageViewModel>>($"https://localhost:7096/api/Message/get-all/{groupId}");
-            
-
-            //var groupMessages = await _httpClient.GetAsync($"https://localhost:7096/api/Message/get-all/{groupId}");
-
-
-            return Ok(groupMessages);
+            return View("GroupChat");
         }
     }
 }

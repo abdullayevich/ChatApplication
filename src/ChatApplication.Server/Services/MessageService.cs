@@ -11,9 +11,9 @@ public class MessageService : IMessageService
     {
         this._dbContext = dbContext;
     }
-    public async Task<IEnumerable<Message>> GetGroupMessagesAsync(int groupId)
+    public async Task<IEnumerable<Message>> GetGroupMessagesAsync(string groupName)
     {
-        var result = await (from mess in _dbContext.Messages.Where(x => x.GroupChatId == groupId)
+        var result = await (from mess in _dbContext.Messages.Where(x => x.GroupChat.GroupName == groupName)
                       join user in _dbContext.Users.Where(x => x.Id > 0)
                       on mess.SenderId equals user.Id
                       select new Message()
@@ -36,8 +36,9 @@ public class MessageService : IMessageService
 
     public async Task<Message> SendMessageAsync(CreateMessageDto messageDto)
     {
+        var res = await _dbContext.GroupChats.FirstOrDefaultAsync(x => x.GroupName == messageDto.GroupName);
         Message message = new Message();
-        if (messageDto.GroupId == 0)
+        if (messageDto.GroupName == "")
         {
             message.SenderId = messageDto.SenderId;
             message.ReceiverId = messageDto.ReceiverId;
@@ -48,7 +49,7 @@ public class MessageService : IMessageService
         else if (messageDto.ReceiverId == 0)
         {
             message.SenderId = messageDto.SenderId;
-            message.GroupChatId = messageDto.GroupId;
+            message.GroupChatId = res.Id;
             message.MessageContent = messageDto.MessageContent;
             message.SentAt = DateTime.UtcNow.AddHours(5);
             message.IsRead = true;

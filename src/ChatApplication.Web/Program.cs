@@ -1,14 +1,21 @@
 using ChatApplication.Service.Configuration;
+using ChatApplication.Service.Interfaces;
 using ChatApplication.Service.Middlewares;
+using ChatApplication.Service.Services;
 using ChatApplication.Web.Configuration;
+using ChatApplication.Web.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 builder.Services.AddHttpClient("ChatAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7096"); // API xizmati manzili
@@ -47,5 +54,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+app.MapHub<ChatHub>("/ChatHub");
 
 app.Run();

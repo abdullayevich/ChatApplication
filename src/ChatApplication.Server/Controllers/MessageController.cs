@@ -17,10 +17,10 @@ public class MessageController : ControllerBase
         this._messageService = messageService;
     }
 
-    [HttpGet("get-all/{groupId}")]
-    public async Task<IActionResult> GetGroupMessagesAsync(int groupId)
+    [HttpGet("get-all/{groupName}")]
+    public async Task<IActionResult> GetGroupMessagesAsync(string groupName)
     {
-        var groupMessages = await _messageService.GetGroupMessagesAsync(groupId);
+        var groupMessages = await _messageService.GetGroupMessagesAsync(groupName);
         var result = groupMessages.Select(x => new MessageViewModel
         {
             Id = x.Id,
