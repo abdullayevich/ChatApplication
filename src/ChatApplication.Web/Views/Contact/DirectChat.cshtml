@@ -3,14 +3,12 @@
     string userName = Context.Request.Query["userName"];
 }
 
-<h2>@userName bilan Chat</h2>
+<h2>@userName</h2>
 
-<!-- Chat oynasi -->
 <div class="chat-window" id="chatWindow">
     <ul id="messagesList"></ul>
 </div>
 
-<!-- Xabarni yozish va yuborish -->
 <div class="message-input">
     <input type="text" id="messageInput" placeholder="Xabarni yozing" />
     <button onclick="sendMessage('@userName')">Yuborish</button>
@@ -40,7 +38,13 @@
             .then(response => response.json())
             .then(messages => {
                 messages.forEach(msg => {
-                    addMessageToChatWindow(msg.fromUser, msg.messageContent, new Date(msg.timestamp).toLocaleString());
+                    let name = "";
+                    if(msg.fromUserName==""){
+                        name = '@userName';
+                    }else{
+                        name = msg.fromUserName;
+                    }
+                    addMessageToChatWindow(name, msg.messageContent, new Date(msg.timestamp).toLocaleString());
                 });
             })
             .catch(err => console.error('Xabarlarni olishda xato:', err));
@@ -82,41 +86,3 @@
         document.getElementById("chatWindow").scrollTop = document.getElementById("chatWindow").scrollHeight;
     }
 </script>
-
-<style>
-    .chat-window {
-        border: 1px solid #ccc;
-        width: 100%;
-        height: 300px;
-        overflow-y: scroll;
-        margin-bottom: 10px;
-        padding: 10px;
-        background-color: #f9f9f9;
-    }
-
-    .message-input {
-        display: flex;
-    }
-
-    .message-input input {
-        flex: 1;
-        padding: 8px;
-    }
-
-    .message-input button {
-        padding: 8px 15px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    .message-input button:hover {
-        background-color: #0056b3;
-    }
-
-    .timestamp {
-        font-size: 0.8em;
-        color: #888;
-    }
-</style>

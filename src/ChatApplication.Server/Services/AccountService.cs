@@ -16,7 +16,6 @@ namespace ChatApplication.Service.Services
             this._authService = authService;
             
         }
-        // To'ldirilishi kerak !!!
         public async Task<string> LoginAsync(AccountLoginDto loginDto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);

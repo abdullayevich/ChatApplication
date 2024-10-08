@@ -1,160 +1,51 @@
 ﻿@using ChatApplication.Service.ViewModels.MessageViewModel
 @model IList<MessageViewModel>
 @{
+    string chatId = Context.Request.Query["chatId"];
+    string chatName = Context.Request.Query["chatName"];
     ViewData["Title"] = "All Chats";
 }
-<!-- Chat container -->
 <div class="chat-container">
     <div class="chat-header">
-        <input type="text" id="groupInput" placeholder="Guruh nomini kiriting" />
-        <button onclick="joinGroup()">Guruhga qo'shilish</button>
-        <button onclick="leaveGroup()">Guruhdan chiqish</button>
+        <h3>@chatName Chat</h3>
     </div>
 
-    <!-- Chat window to display messages -->
     <div class="chat-window" id="chatWindow">
         <ul id="messagesList"></ul>
     </div>
 
-    <!-- Message input area -->
     <div class="message-input">
     <input type="text" id="messageInput" placeholder="Xabarni yozing" />
     <button class="send-butto send-button:hover" onclick="sendMessage()">Yuborish</button>
+    <button onclick="leaveGroup()">Guruhdan chiqish</button>
 </div>
 </div>
-
-<!-- Custom styles for the chat page -->
-<style>
-    .chat-container {
-        max-width: 600px;
-        margin: 0 auto;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 80vh;
-    }
-
-    .chat-header {
-        padding: 10px;
-        background-color: #f5f5f5;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .chat-header input[type="text"] {
-        flex: 1;
-        margin-right: 10px;
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    .chat-window {
-        flex: 1;
-        padding: 10px;
-        background-color: #fafafa;
-        overflow-y: auto;
-    }
-
-    #messagesList {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    #messagesList li {
-        margin-bottom: 10px;
-        padding: 8px;
-        background-color: #e0e0e0;
-        border-radius: 5px;
-        max-width: 80%;
-    }
-
-    .message-input {
-        display: flex;
-        padding: 10px;
-        background-color: #f5f5f5;
-        border-top: 1px solid #ddd;
-    }
-
-    .user-input, .message-box {
-        flex: 1;
-        padding: 8px;
-        margin-right: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    .send-button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-    .send-button:hover {
-        background-color: #0056b3;
-    }
-    #messagesList {
-    list-style-type: none;
-    padding: 0;
-}
-
-.message-item {
-    margin-bottom: 10px;
-    padding: 8px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    max-width: 80%;
-    position: relative;
-}
-
-.message-timestamp {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 0.8em;
-    color: #666;
-}
-
-.my-message {
-    background-color: #cce5ff; /* O'z xabarlaringiz uchun ko'k rang */
-    align-self: flex-end; /* O'z xabaringizni o'ng tomonga joylashtirish */
-}
-
-.other-message {
-    background-color: #e0e0e0; /* Boshqa foydalanuvchilar xabarlari uchun kulrang */
-}
-
-</style>
 
 @section Scripts {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
             <script type="text/javascript">
         const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        
 
             connection.on("ReceiveMessage", function (user, message, timestamp) {
                 const formattedTime = new Date(timestamp).toLocaleString(); 
                 addMessageToChatWindow(user, message,formattedTime);
         });
 
-        connection.start().catch(function (err) {
+        connection.start().then(function(){
+                joinGroup('@chatName');
+        }).catch(function (err) {
             return console.error(err.toString());
         });
 
-        function joinGroup() {
-            const groupName = document.getElementById("groupInput").value;
-            connection.invoke("JoinGroup", groupName).catch(function (err) {
+        function joinGroup(chatName) {
+                console.log("Join Group ishladi", chatName);
+            connection.invoke("JoinGroup", chatName).catch(function (err) {
                 return console.error(err.toString());
             });
 
             // Guruh uchun avvalgi xabarlarni olish
-                fetch(`/GetMessages/${groupName}`)
+                fetch(`/GetMessages/${chatName}`)
             .then(response => response.json())
             .then(messages => {
                 messages.forEach(msg => {
@@ -164,6 +55,8 @@
 
                     addMessageToChatWindow(user, message, timestamp);
                 });
+                    console.log("Eski ma'lumotlar keldi", chatName);
+
             })
             .catch(err => console.error('Xabarlarni olishda xato:', err));
         }
@@ -180,7 +73,7 @@
         const message = document.getElementById("messageInput").value;
 
         if (message) {
-            connection.invoke("SendMessage", groupName, message)
+            connection.invoke("SendMessage", '@chatName', message)
                 .then(() => console.log('Xabar yuborildi:', message))
                 .catch(function (err) {
                     console.error('Xabar yuborishda xato:', err.toString());

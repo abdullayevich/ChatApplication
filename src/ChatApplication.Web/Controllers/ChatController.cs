@@ -20,7 +20,6 @@ namespace ChatApplication.Web.Controllers
         }
         
         [HttpGet]
-        [Route("ChatRoom")]
         public async Task<IActionResult> ChatRoom()
         {
             return View("GroupChat");

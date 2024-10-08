@@ -2,10 +2,10 @@
 @model IEnumerable<AllUserViewModel>
 
 @{
-    ViewData["Title"] = "My Contacts";
+    ViewData["Title"] = "Contacts";
 }
 
-<h2>My Contacts</h2>
+<h2>Contacts</h2>
 <h2>All Chats</h2>
 <table class="table table-bordered">
     <thead>
@@ -21,9 +21,7 @@
         {
             <tr>
                 <td>@user.Id</td>
-                <td>
                 <td><button onclick="openChatWindow('@user.Id', '@user.Username')">@user.Username bilan chat</button></td>
-                <a asp-controller="Contact" asp-action="DirectChat" asp-route-username="@user.Username" class="btn btn-primary open-chat">@user.Username</a></td>
                 <td>@user.Email</td>
                 <td>@(user.Status ? "Active" : "Inactive")</td>
             </tr>

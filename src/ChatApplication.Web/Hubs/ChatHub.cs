@@ -23,7 +23,7 @@ namespace ChatApplication.Web.Hubs
             string fromUser = Context.UserIdentifier!;
             var senderId = int.Parse(_accessor.HttpContext!.User.FindFirst("Id")!.Value);
             var user = (_accessor.HttpContext!.User.FindFirst("UserName")!.Value).ToString();
-            var timeStamp = DateTime.UtcNow.AddHours(5);
+            var timeStamp = DateTime.UtcNow;
             var newMessage = new CreateMessageDto
             {
                 GroupName = "",
@@ -47,7 +47,7 @@ namespace ChatApplication.Web.Hubs
                 SenderId = senderId,
                 ReceiverName = ""
             };
-            var timestamp = DateTime.UtcNow.AddHours(5);
+            var timestamp = DateTime.UtcNow;
             var response = await _httpClient.PostAsJsonAsync<CreateMessageDto>("https://localhost:7096/api/Message/send-message", newMessage);
 
             await Clients.Group(groupName).SendAsync("ReceiveMessage", user, message,timestamp);
