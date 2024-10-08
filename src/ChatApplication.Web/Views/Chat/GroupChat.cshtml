@@ -121,14 +121,6 @@
     font-size: 0.8em;
     color: #666;
 }
-.message-item {
-    margin-bottom: 10px;
-    padding: 8px;
-    background-color: #e0e0e0; /* Boshqa foydalanuvchilar xabarining rangi */
-    border-radius: 5px;
-    max-width: 80%;
-    position: relative;
-}
 
 .my-message {
     background-color: #cce5ff; /* O'z xabarlaringiz uchun ko'k rang */
@@ -139,13 +131,6 @@
     background-color: #e0e0e0; /* Boshqa foydalanuvchilar xabarlari uchun kulrang */
 }
 
-.message-timestamp {
-    position: absolute;
-    bottom: 5px; /* Xabar oynasining past qismida */
-    right: 10px; /* O'ng tomonda joylashgan */
-    font-size: 0.8em; /* Vaqt matnining hajmini kichikroq qilish */
-    color: #666; /* Vaqtni ochroq rangda ko'rsatish */
-}
 </style>
 
 @section Scripts {
@@ -208,7 +193,7 @@
     }
 
 
-                function addMessageToChatWindow(user, message, timestamp) {
+    function addMessageToChatWindow(user, message, timestamp) {
         const li = document.createElement("li");
         li.classList.add("message-item");
 

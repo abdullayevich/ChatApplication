@@ -1,0 +1,122 @@
+﻿@{
+    string userId = Context.Request.Query["userId"];
+    string userName = Context.Request.Query["userName"];
+}
+
+<h2>@userName bilan Chat</h2>
+
+<!-- Chat oynasi -->
+<div class="chat-window" id="chatWindow">
+    <ul id="messagesList"></ul>
+</div>
+
+<!-- Xabarni yozish va yuborish -->
+<div class="message-input">
+    <input type="text" id="messageInput" placeholder="Xabarni yozing" />
+    <button onclick="sendMessage('@userName')">Yuborish</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
+<script type="text/javascript">
+    const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+    connection.on("ReceiveMessageToUser", function (fromUser, message, timestamp) {
+        const formattedTime = new Date(timestamp).toLocaleString();
+        console.log("Keldi:", fromUser, message, formattedTime);
+        console.log("Xabarlar oynasi mavjudmi?", document.getElementById("messagesList"));
+        addMessageToChatWindow(fromUser, message,formattedTime);
+    });
+
+    connection.start().then(function(){
+        loadOldMessages('@userId');
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    
+
+    function loadOldMessages(userId) {
+        fetch(`/GetUserMessages/${userId}`)
+            .then(response => response.json())
+            .then(messages => {
+                messages.forEach(msg => {
+                    addMessageToChatWindow(msg.fromUser, msg.messageContent, new Date(msg.timestamp).toLocaleString());
+                });
+            })
+            .catch(err => console.error('Xabarlarni olishda xato:', err));
+    }
+
+    function sendMessage(toUser) {
+        const message = document.getElementById("messageInput").value;
+
+        if (message) {
+            connection.invoke("SendMessageToUser",toUser,message)
+                .then(() => console.log('Xabar yuborildi:', message))
+                .catch(function (err) {
+                    console.error('Xabar yuborishda xato:', err.toString());
+                });
+
+            document.getElementById("messageInput").value = '';
+        } else {
+            console.error('Xabar bo\'sh, iltimos xabar kiriting!');
+        }
+    }
+
+    function addMessageToChatWindow(user, message, timestamp) {
+        console.log("Xabar yoziladigan joyga keldi");
+        const li = document.createElement("li");
+        li.classList.add("message-item");
+
+        const messageText = document.createElement("span");
+        messageText.textContent = `${user}: ${message}`;
+
+        const timeText = document.createElement("small");
+        timeText.textContent = ` (${timestamp})`;
+        timeText.classList.add("message-timestamp");
+
+        li.appendChild(messageText);
+        li.appendChild(timeText);
+        console.log("Yoziladigan xabar:",li);
+
+        document.getElementById("messagesList").appendChild(li);
+        document.getElementById("chatWindow").scrollTop = document.getElementById("chatWindow").scrollHeight;
+    }
+</script>
+
+<style>
+    .chat-window {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 300px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .message-input {
+        display: flex;
+    }
+
+    .message-input input {
+        flex: 1;
+        padding: 8px;
+    }
+
+    .message-input button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .message-input button:hover {
+        background-color: #0056b3;
+    }
+
+    .timestamp {
+        font-size: 0.8em;
+        color: #888;
+    }
+</style>

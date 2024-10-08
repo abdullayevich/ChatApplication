@@ -26,29 +26,6 @@ public class MessageController : Controller
         return View();
     }
 
-    //[HttpPost]
-    //[Route("SendMessageToGroup")]
-    //public async Task<IActionResult> SendMessageToGroup(CreateMessageDto message)
-    //{
-    //    var res = int.Parse(_accessor.HttpContext!.User.FindFirst("Id").Value);
-    //    var senderName = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    //    var newMessage = new CreateMessageDto
-    //    {
-    //        GroupId = message.GroupId,
-    //        MessageContent = message.MessageContent,
-    //        ReceiverId = 0,
-    //        SenderId = res
-    //    };
-    //    var response = await _httpClient.PostAsJsonAsync<CreateMessageDto>("https://localhost:7096/api/Message/send-message", message);
-    //    if (response.IsSuccessStatusCode)
-    //    {
-    //        Console.WriteLine("Message added");
-    //    }
-
-    //    await _hubContext.Clients.Group("New").SendAsync("ReceiveMessage", senderName, newMessage.MessageContent);
-    //    return RedirectToAction("Index", new { id = message.ReceiverId });
-    //}
-
     [HttpGet("GetMessages/{groupName}")]
     public async Task<IActionResult> GetMessages(string groupName)
     {
@@ -56,5 +33,22 @@ public class MessageController : Controller
 
 
         return Ok(groupMessages);
+    }
+    [HttpGet("GetUserMessages/{userId}")]
+    public async Task<IActionResult> GetUserMessages(int userId)
+    {
+        var senderId = int.Parse(_accessor.HttpContext!.User.FindFirst("Id").Value);
+        var userName = (_accessor.HttpContext!.User.FindFirst("UserName").Value).ToString();
+        var userMessages = await _httpClient.GetFromJsonAsync<IList<Message>>($"https://localhost:7096/api/Message/user-all-message/{userId}");
+        var result = userMessages.Where(x => x.ReceiverId == userId && x.SenderId == senderId || x.SenderId == userId && x.ReceiverId == senderId)
+                                    .Select(x => new MessageViewModel
+                                    {
+
+                                        FromUserName = x.SenderId == userId ? userName : "",
+                                        Timestamp = x.SentAt,
+                                        Id = x.Id,
+                                        MessageContent = x.MessageContent
+                                    });
+        return Ok(result);
     }
 }

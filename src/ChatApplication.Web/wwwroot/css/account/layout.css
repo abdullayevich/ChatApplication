@@ -1,0 +1,82 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Butun balandlik */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Oson o'qiladigan shriftdan foydalaning */
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f7ff 100%); /* Yengil ko'k rangdagi gradient orqa fon */
+}
+
+.account-container {
+    width: 100%;
+    max-width: 400px; /* Maksimal kenglik */
+    padding: 30px; /* Ichki bo'shliq */
+    background-color: white; /* Asosiy konteyner oq rang */
+    border-radius: 12px; /* Yumshoq burchaklar */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Katta soyalar */
+    text-align: center; /* Matnni markazga joylashtirish */
+    margin: auto; /* O'rtaga joylashtirish */
+    position: relative; /* Konteyner pozitsiyasi */
+    top: 50%; /* Yuqoridan 50% joylashtirish */
+    transform: translateY(-50%); /* Yuqoridan pastga siljitish */
+}
+
+h2 {
+    color: #333; /* Matn rangi */
+    margin-bottom: 20px; /* Pastki bo'shliq */
+    font-size: 24px; /* Matn o'lchovi */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Maydonlar orasida bo'shliq */
+}
+
+label {
+    display: block; /* Teglar ko'rinishini tartibga solish */
+    margin-bottom: 5px; /* Taglar orasida bo'shliq */
+    color: #555; /* Taglar rangi */
+    font-weight: bold; /* Qalin matn */
+}
+
+input {
+    width: 100%; /* Kiritish maydonlarining kengligi */
+    padding: 12px; /* Ichki bo'shliq */
+    border: 1px solid #ccc; /* Chegarasi */
+    border-radius: 6px; /* Yumshoq burchaklar */
+    box-sizing: border-box; /* Chegarani hisobga olish */
+    transition: border-color 0.3s ease; /* O'zgarish effekti */
+}
+
+    input:focus {
+        border-color: #007BFF; /* Fokusda bo'lgan kiritish maydonlari */
+        outline: none; /* Tashqi chiziqni olib tashlash */
+    }
+
+button {
+    background-color: #007BFF; /* Tugma rangi */
+    color: white; /* Tugma matni rangi */
+    border: none; /* Chegarani olib tashlash */
+    padding: 12px; /* Ichki bo'shliq */
+    border-radius: 6px; /* Yumshoq burchaklar */
+    width: 100%; /* Tugma kengligi */
+    cursor: pointer; /* Ko'rsatkichni o'zgartirish */
+    transition: background-color 0.3s ease; /* O'zgarish effekti */
+    font-size: 16px; /* Tugma matn o'lchovi */
+}
+
+    button:hover {
+        background-color: #0056b3; /* Tugma ustiga kelsa rang o'zgarishi */
+    }
+
+p {
+    margin-top: 20px; /* Pastki bo'shliq */
+    color: #777; /* Matn rangi */
+}
+
+a {
+    color: #007BFF; /* Havola rangi */
+    text-decoration: none; /* Chizilgan chiziqni olib tashlash */
+}
+
+    a:hover {
+        text-decoration: underline; /* Havola ustiga kelsa chizilgan chiziq qo'shish */
+    }

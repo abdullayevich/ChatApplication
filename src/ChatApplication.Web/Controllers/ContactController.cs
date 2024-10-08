@@ -17,5 +17,11 @@ namespace ChatApplication.Web.Controllers
             var users = await _httpClient.GetFromJsonAsync<IList<AllUserViewModel>>("https://localhost:7096/api/User/get_all");
             return View("Index", users);
         }
+        [HttpGet]
+        public async Task<IActionResult> DirectChat(string username)
+        {
+            ViewBag.UserName = username;
+            return View("DirectChat");
+        }
     }
 }

@@ -1,0 +1,65 @@
+﻿body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Orqa fon rangini belgilash */
+    height: 100vh; /* Butun balandlik */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    background-color: white; /* Ro'yxatdan o'tish konteyneri oq rang */
+    padding: 30px;
+    border-radius: 8px; /* Burchaklarni yumshatish */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* O'lchovlar */
+}
+
+h2 {
+    text-align: center;
+    color: #333; /* Matn rangi */
+}
+
+.form-group {
+    margin-bottom: 15px; /* Maydonlar orasida bo'shliq */
+}
+
+label {
+    display: block; /* Teglar ko'rinishini tartibga solish */
+    margin-bottom: 5px; /* Taglar orasida bo'shliq */
+}
+
+input {
+    width: 100%; /* Kiritish maydonlarining kengligi */
+    padding: 10px;
+    border: 1px solid #ccc; /* Chegarasi */
+    border-radius: 4px; /* Yumshoq burchaklar */
+    box-sizing: border-box; /* Chegarani hisobga olish */
+}
+
+    input:focus {
+        border-color: #007BFF; /* Fokusda bo'lgan kiritish maydonlari */
+        outline: none; /* Tashqi chiziqni olib tashlash */
+    }
+
+.register-btn {
+    background-color: #007BFF; /* Tugma rangi */
+    color: white; /* Tugma matni rangi */
+    border: none; /* Chegarani olib tashlash */
+    padding: 10px;
+    border-radius: 5px; /* Yumshoq burchaklar */
+    width: 100%; /* Tugma kengligi */
+    cursor: pointer; /* Ko'rsatkichni o'zgartirish */
+    transition: background-color 0.3s ease; /* O'zgarish effekti */
+}
+
+    .register-btn:hover {
+        background-color: #0056b3; /* Tugma ustiga kelsa rang o'zgarishi */
+    }
+
+.login-link {
+    text-align: center; /* Kirish havolasi markazda */
+    margin-top: 10px; /* Pastki bo'shliq */
+}

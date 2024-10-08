@@ -36,12 +36,13 @@ public class MessageService : IMessageService
 
     public async Task<Message> SendMessageAsync(CreateMessageDto messageDto)
     {
-        var res = await _dbContext.GroupChats.FirstOrDefaultAsync(x => x.GroupName == messageDto.GroupName);
+        var senderID = await _dbContext.GroupChats.FirstOrDefaultAsync(x => x.GroupName == messageDto.GroupName);
+        var receiverId = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == messageDto.ReceiverName);
         Message message = new Message();
-        if (messageDto.GroupName == "")
+        if (senderID == null && receiverId != null)
         {
             message.SenderId = messageDto.SenderId;
-            message.ReceiverId = messageDto.ReceiverId;
+            message.ReceiverId = receiverId.Id;
             message.MessageContent = messageDto.MessageContent;
             message.SentAt = DateTime.UtcNow.AddHours(5);
             message.IsRead = true;
@@ -49,7 +50,7 @@ public class MessageService : IMessageService
         else if (messageDto.ReceiverId == 0)
         {
             message.SenderId = messageDto.SenderId;
-            message.GroupChatId = res.Id;
+            message.GroupChatId = senderID.Id;
             message.MessageContent = messageDto.MessageContent;
             message.SentAt = DateTime.UtcNow.AddHours(5);
             message.IsRead = true;

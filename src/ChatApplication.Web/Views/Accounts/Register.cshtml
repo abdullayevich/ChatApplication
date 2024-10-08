@@ -1,23 +1,27 @@
 ﻿@model AccountRegisterDto
-
+@{
+    Layout = "_AccountLayout";  // Layout faylini ulash
+}
+<div class="register-container">
 <h2>Register</h2>
-
 <form asp-controller="accounts" asp-action="register">
-    <div>
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" />
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" type="email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <button type="submit">Register</button>
+    <div class="form-group">
+            <label for="UserName">UserName:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Parol:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        @* <div class="form-group">
+            <label for="confirmPassword">Parolni tasdiqlash:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div> *@
+        <button type="submit" class="register-btn">Ro'yxatdan o'tish</button>
 </form>
-
+<p class="login-link">Mavjud hisobingiz mavjudmi? <a href="/login">Kirish</a></p>
+</div>

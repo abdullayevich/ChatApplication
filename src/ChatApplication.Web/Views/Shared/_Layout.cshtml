@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Chat Application</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/tables/table.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>
@@ -13,7 +14,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-sm bg-light navbar-light">
             <a class="navbar-brand" href="/">Chat Application</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
@@ -21,14 +22,22 @@
                         <a class="nav-link" href="/Chat">All Chats</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Contact">My Contacts</a>
+                        <a class="nav-link" href="/Contact">All User</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Account">My Account</a>
                     </li>
                 </ul>
             </div>
+                <a href="/logout" style="background-color: #007BFF; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; color: white; display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                        <path d="M16 13V11H7V8L3 12L7 16V13H16ZM18 19H11V17H18V7H11V5H18C19.1 5 20 5.9 20 7V17C20 18.1 19.1 19 18 19Z" fill="white"/>
+                      </svg>
+                      <span style="font-size: 16px; font-weight: bold;">Logout</span>
+                </a>
         </nav>
+        
+
     </header>
 
     <div class="container mt-4">

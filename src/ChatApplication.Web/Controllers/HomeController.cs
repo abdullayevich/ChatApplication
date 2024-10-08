@@ -30,5 +30,15 @@ namespace ChatApplication.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet("logout")]
+        public IActionResult LogOut()
+        {
+            HttpContext.Response.Cookies.Append("X-Access-Token", "", new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
+            return RedirectToAction("login", "accounts", new { area = "" });
+        }
     }
 }
