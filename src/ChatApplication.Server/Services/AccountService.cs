@@ -1,7 +1,9 @@
 ﻿using ChatApplication.Domain.Entities;
 using ChatApplication.Service.Dtos.Users;
 using ChatApplication.Service.Interfaces;
+using ChatApplication.Service.Services.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ChatApplication.Service.Services
 {
@@ -9,12 +11,13 @@ namespace ChatApplication.Service.Services
     {
         private readonly AppDbContext _dbContext;
         private readonly IAuthService _authService;
+        private readonly IMemoryCache _cache;
 
-        public AccountService(AppDbContext dbContext, IAuthService authService)
+        public AccountService(AppDbContext dbContext, IAuthService authService, IMemoryCache cache)
         {
             this._dbContext = dbContext;
             this._authService = authService;
-            
+            this._cache = cache;
         }
         public async Task<string> LoginAsync(AccountLoginDto loginDto)
         {
@@ -23,19 +26,26 @@ namespace ChatApplication.Service.Services
             {
                 throw new NotImplementedException();
             }
-            string token = _authService.GenerateToken(user);
-
-            return token;
+            var hasherResult = PasswordHasher.Verify(loginDto.Password, user.Password);
+            if (hasherResult)
+            {
+                string token = _authService.GenerateToken(user);
+                return token;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
-
         public async Task<User> RegisterAsync(AccountRegisterDto registerDto)
         {
+            var hashresult = PasswordHasher.Hash(registerDto.Password);
             User user = new User()
             {
 
                 Username = registerDto.UserName,
                 Email = registerDto.Email,
-                Password = registerDto.Password,
+                Password = hashresult.Hash,
                 Status = true,
                 CreatedAt = DateTime.UtcNow.AddHours(5),
             };

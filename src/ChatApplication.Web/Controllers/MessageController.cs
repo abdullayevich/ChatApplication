@@ -3,13 +3,14 @@ using ChatApplication.Service.Dtos.Messages;
 using ChatApplication.Service.Dtos.Users;
 using ChatApplication.Service.ViewModels.MessageViewModel;
 using ChatApplication.Web.Hubs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Net.Http;
 using System.Security.Claims;
 
 namespace ChatApplication.Web.Controllers;
-
+[Authorize]
 public class MessageController : Controller
 {
     private readonly IHttpContextAccessor _accessor;
