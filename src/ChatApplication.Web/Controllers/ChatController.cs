@@ -8,21 +8,25 @@ namespace ChatApplication.Web.Controllers;
 [Authorize]
 public class ChatController : Controller
 {
-    private readonly HttpClient _httpClient;
+	private readonly IHttpContextAccessor _contextAccessor;
+	private readonly HttpClient _httpClient;
 
-    public ChatController(HttpClient httpClient)
+    public ChatController(HttpClient httpClient, IHttpContextAccessor accessor)
     {
-        _httpClient = httpClient;
+		_contextAccessor = accessor;
+		_httpClient = httpClient;
     }
     public async Task<ViewResult> Index()
     {
-        var groupChats = await _httpClient.GetFromJsonAsync<IList<GroupChat>>("https://localhost:7096/api/GroupChat/get-all-groupChat");
+		ViewBag.UserName = _contextAccessor.HttpContext?.User.FindFirst("UserName")?.Value;
+		var groupChats = await _httpClient.GetFromJsonAsync<IList<GroupChat>>("https://localhost:7096/api/GroupChat/get-all-groupChat");
         return View("Index", groupChats);
     }
     
     [HttpGet]
     public async Task<IActionResult> ChatRoom()
     {
-        return View("GroupChat");
+		ViewBag.UserName = _contextAccessor.HttpContext?.User.FindFirst("UserName")?.Value;
+		return View("GroupChat");
     }
 }

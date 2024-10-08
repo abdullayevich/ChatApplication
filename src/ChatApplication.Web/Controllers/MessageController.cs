@@ -24,13 +24,16 @@ public class MessageController : Controller
 
     public IActionResult Index()
     {
-        return View();
+		ViewBag.UserName = _accessor.HttpContext?.User.FindFirst("UserName")?.Value;
+
+		return View();
     }
 
     [HttpGet("GetMessages/{groupName}")]
     public async Task<IActionResult> GetMessages(string groupName)
     {
-        var groupMessages = await _httpClient.GetFromJsonAsync<IList<MessageViewModel>>($"https://localhost:7096/api/Message/get-all/{groupName}");
+		ViewBag.UserName = _accessor.HttpContext?.User.FindFirst("UserName")?.Value;
+		var groupMessages = await _httpClient.GetFromJsonAsync<IList<MessageViewModel>>($"https://localhost:7096/api/Message/get-all/{groupName}");
 
 
         return Ok(groupMessages);
@@ -38,7 +41,9 @@ public class MessageController : Controller
     [HttpGet("GetUserMessages/{userId}")]
     public async Task<IActionResult> GetUserMessages(int userId)
     {
-        var senderId = int.Parse(_accessor.HttpContext!.User.FindFirst("Id").Value);
+		ViewBag.UserName = _accessor.HttpContext?.User.FindFirst("UserName")?.Value;
+
+		var senderId = int.Parse(_accessor.HttpContext!.User.FindFirst("Id").Value);
         var userName = (_accessor.HttpContext!.User.FindFirst("UserName").Value).ToString();
         var userMessages = await _httpClient.GetFromJsonAsync<IList<Message>>($"https://localhost:7096/api/Message/user-all-message/{userId}");
         var result = userMessages.Where(x => x.ReceiverId == userId && x.SenderId == senderId || x.SenderId == userId && x.ReceiverId == senderId)

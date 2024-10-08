@@ -8,15 +8,19 @@ namespace ChatApplication.Web.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
+    private readonly IHttpContextAccessor _contextAccessor;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IHttpContextAccessor accessor)
     {
+        _contextAccessor = accessor;
         _logger = logger;
     }
 
     public IActionResult Index()
     {
+        ViewBag.UserName = _contextAccessor.HttpContext?.User.FindFirst("UserName")?.Value;
+
         return View();
     }
 

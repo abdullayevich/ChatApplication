@@ -1,50 +1,57 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Chat Application</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/tables/tables.css">
-    <link rel="stylesheet" href="~/css/direct/design.css" />
-    <link rel="stylesheet" href="~/css/group/design.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/InputText.css" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Chat Application</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/tables/tables.css">
+	<link rel="stylesheet" href="~/css/direct/design.css" />
+	<link rel="stylesheet" href="~/css/group/design.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/InputText.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.10/signalr.min.js"></script>
 
-    
+
 </head>
 <body style="background-color: #f0f0f0;">
-    <header>
-        <nav class="navbar navbar-expand-sm bg-light navbar-light">
-            <a class="navbar-brand" href="/">Chat Application</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Chat">All Chats</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Contact">All User</a>
-                    </li>
-                </ul>
-            </div>
-                <a href="/logout" style="background-color: #007BFF; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; color: white; display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                        <path d="M16 13V11H7V8L3 12L7 16V13H16ZM18 19H11V17H18V7H11V5H18C19.1 5 20 5.9 20 7V17C20 18.1 19.1 19 18 19Z" fill="white"/>
-                      </svg>
-                      <span style="font-size: 16px; font-weight: bold;">Logout</span>
-                </a>
-        </nav>
-    </header>
-    <div class="container mt-4">
-        @RenderBody()
-    </div>
+	<header>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+	<a class="navbar-brand" href="/">Chat Application</a>
+	<div class="collapse navbar-collapse">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="/Chat">All Chats</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/Contact">All User</a>
+			</li>
+		</ul>
+		<div class="d-flex align-items-center" style="margin-left: auto;">
+		<span class="username" style="margin-right: 30px;">Hello, @ViewBag.UserName</span> <!-- Margin oshirildi -->
 
-    <footer class="footer mt-auto py-3"></footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @RenderSection("Scripts", required: false)
+			<a href="/logout" style="background-color: #007BFF; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; color: white; display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+					<path d="M16 13V11H7V8L3 12L7 16V13H16ZM18 19H11V17H18V7H11V5H18C19.1 5 20 5.9 20 7V17C20 18.1 19.1 19 18 19Z" fill="white"/>
+				</svg>
+				<span style="font-size: 16px; font-weight: bold;">Logout</span>
+			</a>
+		</div>
+	</div>
+</nav>
+
+
+	</header>
+	<div class="container mt-4">
+		@RenderBody()
+	</div>
+
+	<footer class="footer mt-auto py-3"></footer>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	@RenderSection("Scripts", required: false)
 </body>
 </html>
