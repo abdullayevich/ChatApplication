@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/css/tables/tables.css">
     <link rel="stylesheet" href="~/css/direct/design.css" />
     <link rel="stylesheet" href="~/css/group/design.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/InputText.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -15,7 +17,7 @@
 
     
 </head>
-<body>
+<body style="background-color: #f0f0f0;">
     <header>
         <nav class="navbar navbar-expand-sm bg-light navbar-light">
             <a class="navbar-brand" href="/">Chat Application</a>
@@ -27,9 +29,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/Contact">All User</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account">My Account</a>
-                    </li>
                 </ul>
             </div>
                 <a href="/logout" style="background-color: #007BFF; border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; color: white; display: flex; align-items: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
@@ -39,17 +38,13 @@
                       <span style="font-size: 16px; font-weight: bold;">Logout</span>
                 </a>
         </nav>
-        
-
     </header>
-
     <div class="container mt-4">
         @RenderBody()
     </div>
 
-    <footer class="footer mt-auto py-3"
-    </footer>
+    <footer class="footer mt-auto py-3"></footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @RenderSection("Scripts", required: false);
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

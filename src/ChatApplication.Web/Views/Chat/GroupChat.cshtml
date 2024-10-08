@@ -8,6 +8,7 @@
 <div class="chat-container">
     <div class="chat-header">
         <h3>@chatName Chat</h3>
+    <button class="button-65" role="button" onclick="leaveGroup()">Guruhdan chiqish</button>
     </div>
 
     <div class="chat-window" id="chatWindow">
@@ -16,8 +17,7 @@
 
     <div class="message-input">
     <input type="text" id="messageInput" placeholder="Xabarni yozing" />
-    <button class="send-butto send-button:hover" onclick="sendMessage()">Yuborish</button>
-    <button onclick="leaveGroup()">Guruhdan chiqish</button>
+    <button class="button-65" role="button" onclick="sendMessage()">Yuborish</button>
 </div>
 </div>
 
@@ -62,10 +62,11 @@
         }
 
         function leaveGroup() {
-            const groupName = document.getElementById("groupInput").value;
-            connection.invoke("LeaveGroup", groupName).catch(function (err) {
+            connection.invoke("LeaveGroup", '@chatName').catch(function (err) {
                 return console.error(err.toString());
             });
+                window.location.href = '/Chat';
+                // <a class="nav-link" href="/Chat">All Chats</a>
         }
 
                 function sendMessage() {

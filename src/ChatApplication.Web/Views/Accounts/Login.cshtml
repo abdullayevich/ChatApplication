@@ -7,13 +7,16 @@
     <form asp-controller="accounts" asp-action="login">
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input
+                  type="email"
+                  placeholder="Type here"
+                  class="input input-bordered input-primary w-full max-w-xs" id="email" name="email" />
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit">Login</button>
+        <button class="button-65" role="button" > Login</button >
     </form>
     <p class="register-link">Yangi hisob yaratasizmi? <a href="/Register">Ro'yxatdan o'tish</a></p>
 </div>

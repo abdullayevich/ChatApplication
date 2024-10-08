@@ -21,7 +21,7 @@ namespace ChatApplication.Service.Services
         }
         public async Task<string> LoginAsync(AccountLoginDto loginDto)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null)
             {
                 throw new NotImplementedException();
@@ -45,7 +45,7 @@ namespace ChatApplication.Service.Services
 
                 Username = registerDto.UserName,
                 Email = registerDto.Email,
-                Password = hashresult.Hash,
+                Password = hashresult,
                 Status = true,
                 CreatedAt = DateTime.UtcNow.AddHours(5),
             };

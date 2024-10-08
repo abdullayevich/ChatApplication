@@ -2,11 +2,10 @@
 {
     public class PasswordHasher
     {
-        public static (string Hash, string Salt) Hash(string password)
+        public static string Hash(string password)
         {
-            string salt = GenerateSalt();
-            string hash = BCrypt.Net.BCrypt.HashPassword(salt + password);
-            return (Hash: hash, Salt: salt);
+            string hash = BCrypt.Net.BCrypt.HashPassword(password);
+            return hash;
         }
 
         public static bool Verify(string password, string hash)
@@ -14,10 +13,6 @@
             return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
-        public static string ChangePassword(string password, string salt)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(salt + password);
-        }
 
         private static string GenerateSalt()
         {
