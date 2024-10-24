@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  webapi:
+    image: webapi
+    build:
+      dockerfile: ChatApplication.Server/Dockerfile
+    ports:
+      - "7096:443"
+    environment:
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/mycert.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=2002
+    volumes:
+      - webapi_data:/app/data #Web Api ma'lumotlarini saqlash
+      - ./https:/https
+    networks:
+      - chatnetwork
+
+  mvc:
+    image: mvc
+    build:
+      dockerfile: ChatApplication.Web/Dockerfile
+    ports:
+      - "7075:443"
+    environment:
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/mycert.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=2002
+    volumes:
+      - web_data:/app/data #MVC ma'lumotlarni saqlash uchun
+      - ./https:/https
+    networks:
+      - chatnetwork
+
+volumes:
+  webapi_data:
+  web_data:
+
+
+networks:
+  chatnetwork:
+    driver: bridge
